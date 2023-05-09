@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Search Example</title>
+</head>
+<body>
+  <h1>Search Example</h1>
+  <form action="http://localhost:3000/search" method="get">
+    <input type="text" name="q" placeholder="Search term">
+    <button type="submit">Search</button>
+  </form>
+  <div id="searchResult"></div>
+
+  <script>
+    const form = document.querySelector('form');
+    const searchResult = document.querySelector('#searchResult');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // get the search term from the form input
+      const searchTerm = form.querySelector('input[name="q"]').value;
+
+      // send a GET request to the search endpoint with the search term as a query parameter
+      fetch(`http://localhost:3000/search?q=${encodeURIComponent(searchTerm)}`)
+        .then(response => response.text())
+        .then(result => {
+          // display the search result on the page
+          searchResult.textContent = result;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
+  </script>
+</body>
+</html>
